@@ -219,8 +219,6 @@ $gap: 10px;
             &::-webkit-scrollbar-thumb {
                background-color: darken(rgb(179, 179, 179), 15);
                border-right: 5px solid $list-bg-color;
-               // border-radius: 5px;
-               // rgb(179, 179, 179)
             }
 
             li {
