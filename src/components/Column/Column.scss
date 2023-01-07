@@ -36,7 +36,7 @@ $column-border-radius: 6px;
       border-bottom-left-radius: $column-border-radius;
       border-bottom-right-radius: $column-border-radius;
    }
-   ul.task-list {
+   ul.card-list {
       max-height: calc(100% - #{$column-header-height + $column-footer-height});
       margin: 0;
       overflow-y: auto;
