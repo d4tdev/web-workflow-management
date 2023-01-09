@@ -22,21 +22,21 @@ export const initialData = {
                      boardId: 'board-1',
                      columnId: 'column-1',
                      title: 'Hello from the world!',
-                     cover: null
+                     cover: null,
                   },
                   {
                      id: 'card-3',
                      boardId: 'board-1',
                      columnId: 'column-1',
                      title: 'Hello from the world!',
-                     cover: null
+                     cover: null,
                   },
                   {
                      id: 'card-4',
                      boardId: 'board-1',
                      columnId: 'column-1',
                      title: 'Hello from the world!',
-                     cover: null
+                     cover: null,
                   },
                ],
             },
@@ -58,21 +58,21 @@ export const initialData = {
                      boardId: 'board-1',
                      columnId: 'column-3',
                      title: 'Hello from the world! 3',
-                     cover: null
+                     cover: null,
                   },
                   {
                      id: 'card-14',
                      boardId: 'board-1',
                      columnId: 'column-3',
                      title: 'Hello from the world! 3',
-                     cover: null
+                     cover: null,
                   },
                   {
                      id: 'card-15',
                      boardId: 'board-1',
                      columnId: 'column-1',
                      title: 'Hello from the world! 3',
-                     cover: null
+                     cover: null,
                   },
                ],
             },
@@ -94,21 +94,21 @@ export const initialData = {
                      boardId: 'board-1',
                      columnId: 'column-2',
                      title: 'Hello from the world! 2',
-                     cover: null
+                     cover: null,
                   },
                   {
                      id: 'card-10',
                      boardId: 'board-1',
                      columnId: 'column-2',
                      title: 'Hello from the world! 2',
-                     cover: null
+                     cover: null,
                   },
                   {
                      id: 'card-11',
                      boardId: 'board-1',
                      columnId: 'column-1',
                      title: 'Hello from the world! 2',
-                     cover: null
+                     cover: null,
                   },
                ],
             },
