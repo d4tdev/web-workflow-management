@@ -2,9 +2,8 @@
 
 .App {
    height: 100vh;
-   display: grid;
-   grid-template-rows: 40px 50px 1fr; // grid layout theo rows tren cung la 40px, giua la 50px, duoi la 1fr
+   overflow: hidden;
+   // display: grid;
+   // grid-template-rows: 40px 50px 1fr; // grid layout theo rows tren cung la 40px, giua la 50px, duoi la 1fr
    background-color: $board-bg-color;
-
-
 }

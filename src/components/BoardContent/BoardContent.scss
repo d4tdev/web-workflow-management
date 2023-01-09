@@ -1,10 +1,9 @@
 @import '_settings.scss';
 
-
 .board-content {
-   display: flex;
-   margin: 0 $gap ($gap - 3px);
+   height: $board-content-height;
    overflow-x: auto;
+   overflow-y: hidden;
    &::-webkit-scrollbar {
       --webkit-appearance: none;
    }
@@ -15,5 +14,11 @@
       background-color: $common-element-bg;
       border-radius: 8px;
       // rgb(179, 179, 179)
+   }
+
+   .column-drop-preview {
+      background-color: rgba(150, 150, 200, 0.1);
+      border: 1px dashed #abc;
+      margin: 5px 45px 5px 5px;
    }
 }
