@@ -1,5 +1,12 @@
-import React, { useState, useEffect } from 'react';
-const { Container, Draggable } = require('react-smooth-dnd');
+import React, { useState, useEffect, useRef } from 'react';
+import { Container, Draggable } from 'react-smooth-dnd';
+import {
+   Container as BootstrapContainer,
+   Row,
+   Col,
+   Form,
+   Button,
+} from 'react-bootstrap';
 import { isEmpty } from 'lodash';
 
 import './BoardContent.scss';
@@ -12,6 +19,11 @@ function BoardContent() {
    // react hooks
    const [board, setBoard] = useState({});
    const [columns, setColumns] = useState([]);
+   const [openNewColumnForm, setOpenNewColumnForm] = useState(false);
+
+   const newColumnInputRef = useRef(null);
+
+   const [newColumnTitle, setNewColumnTitle] = useState('');
 
    useEffect(() => {
       const boardFromDB = initialData.boards.find(
@@ -26,6 +38,13 @@ function BoardContent() {
          );
       }
    }, []);
+
+   useEffect(() => {
+      if (newColumnInputRef && newColumnInputRef.current) {
+         newColumnInputRef.current.focus();
+         newColumnInputRef.current.select();
+      }
+   }, [openNewColumnForm]); // để khi biến giá trị openNewColumnForm thay đổi thì mới chạy useEffect
 
    if (isEmpty(board)) {
       return (
@@ -61,6 +80,35 @@ function BoardContent() {
       }
    };
 
+   const toggleOpenNewColumnForm = () =>
+      setOpenNewColumnForm(!openNewColumnForm);
+
+   const addNewColumn = () => {
+      if (!newColumnTitle) {
+         newColumnInputRef.current.focus();
+         return;
+      }
+
+      const newColumnToAdd = {
+         id: `column-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
+         title: newColumnTitle.trim(),
+         boardId: board.id,
+         cardOrder: [],
+         cards: [],
+      };
+      let newColumns = [...columns];
+      newColumns.push(newColumnToAdd);
+
+      let newBoard = { ...board };
+      newBoard.columnOrder = newColumns.map(c => c.id);
+      newBoard.columns = newColumns;
+
+      setColumns(newColumns);
+      setBoard(newBoard);
+      setNewColumnTitle('');
+      toggleOpenNewColumnForm();
+   };
+
    return (
       <div className='board-content'>
          <Container
@@ -76,16 +124,48 @@ function BoardContent() {
                className: 'column-drop-preview',
             }}>
             {columns.map((column, index) => (
-               <Draggable
-                  /* A unique identifier for each column. */
-                  key={index}>
+               <Draggable key={index}>
                   <Column column={column} onCardDrop={onCardDrop} />
                </Draggable>
             ))}
          </Container>
-         <div className='add-new-column'>
+
+         <BootstrapContainer className='add-column-container'>
+            {!openNewColumnForm && (
+               <Row>
+                  <Col
+                     className='add-new-column'
+                     onClick={toggleOpenNewColumnForm}>
+                     <i className='fa fa-plus icon' /> Add another column
+                  </Col>
+               </Row>
+            )}
+            {openNewColumnForm && (
+               <Row>
+                  <Col className='enter-new-column'>
+                     <Form.Control
+                        size='sm'
+                        type='text'
+                        placeholder='Enter column title...'
+                        className='input-enter-new-column'
+                        ref={newColumnInputRef}
+                        value={newColumnTitle}
+                        onChange={e => setNewColumnTitle(e.target.value)}
+                        onKeyDown={e => e.key === 'Enter' && addNewColumn()}
+                     />
+                     <Button variant='success' size='sm' onClick={addNewColumn}>
+                        Add column
+                     </Button>
+                     <span className='cancel-new-column' onClick={toggleOpenNewColumnForm}>
+                        <i className='fa fa-times icon' />
+                     </span>
+                  </Col>
+               </Row>
+            )}
+         </BootstrapContainer>
+         {/* <div className='add-new-column'>
             <i className='fa fa-plus icon' /> Add another column
-         </div>
+         </div> */}
       </div>
    );
 }

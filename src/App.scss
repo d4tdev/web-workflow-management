@@ -1,3 +1,4 @@
+@import '~bootstrap/scss/bootstrap';
 @import '_settings.scss';
 
 .App {
@@ -9,6 +10,17 @@
    color: $app-main-text-color;
    .icon {
       font-size: 14px;
-      margin-right: 3px;
+      margin: 0 3px;
+   }
+
+   .add-column-container {
+      margin: 0 15px;
+      padding: 0;
+   }
+
+   .btn:focus,
+   .btn:active {
+      outline: none;
+      box-shadow: none;
    }
 }

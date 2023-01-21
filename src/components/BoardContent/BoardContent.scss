@@ -5,6 +5,11 @@
    overflow-x: auto;
    overflow-y: hidden;
    display: flex;
+   &:after {
+      content: '';
+      flex: 0 0 $gap;
+   }
+
    &::-webkit-scrollbar {
       --webkit-appearance: none;
    }
@@ -26,7 +31,7 @@
    .add-new-column {
       background-color: hsla(0, 0%, 100%, 0.24);
       min-width: 250px;
-      height: 32px;
+      max-width: 250px;
       line-height: 32px;
       padding: 4px 0 4px 15px;
       cursor: pointer;
@@ -37,6 +42,33 @@
 
       &:hover {
          background-color: hsla(0, 0%, 100%, 0.44);
+      }
+   }
+
+   .enter-new-column {
+      min-width: 250px;
+      max-width: 250px;
+      background-color: $list-bg-color;
+      line-height: 32px;
+      padding: 5px 10px;
+      margin-left: $gap;
+      border-radius: $column-border-radius;
+
+      input.input-enter-new-column {
+         margin: 5px 0;
+      }
+      span.cancel-new-column {
+         position: relative;
+         bottom: -4px;
+         margin-left: $gap;
+         cursor: pointer;
+         i {
+            font-size: 22px;
+            color: $alert-danger;
+            &:hover {
+               color: darken($alert-danger, 10);
+            }
+         }
       }
    }
 }
