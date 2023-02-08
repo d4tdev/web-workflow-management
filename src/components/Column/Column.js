@@ -111,16 +111,16 @@ function Column(props) {
                   />
 
                   <Dropdown.Menu className='dropdown-menu'>
-                     <Dropdown.Item onClick={toggleShowConfirmModal}>
+                     <Dropdown.Item onClick={toggleOpenNewCardForm}>
                         Add Card...
                      </Dropdown.Item>
                      <Dropdown.Item onClick={toggleShowConfirmModal}>
                         Remove Column...
                      </Dropdown.Item>
-                     <Dropdown.Item onClick={toggleShowConfirmModal}>
+                     <Dropdown.Item>
                         Move all cards in this column (beta)...
                      </Dropdown.Item>
-                     <Dropdown.Item onClick={toggleShowConfirmModal}>
+                     <Dropdown.Item>
                         Archive all cards in this column (beta)...
                      </Dropdown.Item>
                   </Dropdown.Menu>
