@@ -1,3 +1,6 @@
+/**
+ * Write function convert string to slug
+ */
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Draggable } from 'react-smooth-dnd';
 import {
@@ -20,6 +23,8 @@ function BoardContent() {
    const [board, setBoard] = useState({});
    const [columns, setColumns] = useState([]);
    const [openNewColumnForm, setOpenNewColumnForm] = useState(false);
+   const toggleOpenNewColumnForm = () =>
+      setOpenNewColumnForm(!openNewColumnForm);
 
    const newColumnInputRef = useRef(null);
 
@@ -79,9 +84,6 @@ function BoardContent() {
          setColumns(newColumns);
       }
    };
-
-   const toggleOpenNewColumnForm = () =>
-      setOpenNewColumnForm(!openNewColumnForm);
 
    const addNewColumn = () => {
       if (!newColumnTitle) {
@@ -185,7 +187,7 @@ function BoardContent() {
                         Add column
                      </Button>
                      <span
-                        className='cancel-new-column'
+                        className='cancel-icon'
                         onClick={toggleOpenNewColumnForm}>
                         <i className='fa fa-times icon' />
                      </span>
