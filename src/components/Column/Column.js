@@ -15,7 +15,7 @@ import {
 
 function Column(props) {
    const { column, onCardDrop, onUpdateColumn } = props;
-   const cards = mapOrder(column.cards, column.cardOrder, 'id');
+   const cards = mapOrder(column.cards, column.cardOrder, '_id');
 
    const [showConfirmModal, setShowConfirmModal] = useState(false);
    const toggleShowConfirmModal = () => setShowConfirmModal(!showConfirmModal);
@@ -71,14 +71,14 @@ function Column(props) {
       const newCardToAdd = {
          id: `card-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
          title: newCardTitle.trim(),
-         column: column.id,
+         column: column._id,
          boardId: column.boardId,
          cover: null,
       };
 
       let newColumn = cloneDeep(column);
       newColumn.cards.push(newCardToAdd);
-      newColumn.cardOrder.push(newCardToAdd.id);
+      newColumn.cardOrder.push(newCardToAdd._id);
 
       onUpdateColumn(newColumn);
       setNewCardTitle('');
@@ -137,7 +137,7 @@ function Column(props) {
 
                orientation='vertical' // default orientation
                groupName='col' // cho phep keo tha qua cac column khi co cung groupName nhu the
-               onDrop={dropResult => onCardDrop(column.id, dropResult)}
+               onDrop={dropResult => onCardDrop(column._id, dropResult)}
                dragClass='card-ghost'
                dropClass='card-ghost-drop'
                s
