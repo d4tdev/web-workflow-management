@@ -10,13 +10,19 @@ import {
    Form,
    Button,
 } from 'react-bootstrap';
-import { isEmpty } from 'lodash';
+import { isEmpty, cloneDeep, isEqual } from 'lodash';
 
 import './BoardContent.scss';
 import Column from 'components/Column/Column';
 import { mapOrder } from 'utilities/sorts';
 import { applyDrag } from 'utilities/dragDrop';
-import { fetchBoardDetails, createNewColumn } from 'actions/ApiCall';
+import {
+   fetchBoardDetails,
+   createNewColumn,
+   updateBoard,
+   updateColumn,
+   updateCard,
+} from 'actions/ApiCall';
 
 function BoardContent() {
    // react hooks
@@ -32,7 +38,7 @@ function BoardContent() {
 
    useEffect(() => {
       const boardId = '63f74c073b43e235a2891487';
-      fetchBoardDetails(boardId).then(board => {
+      fetchBoardDetails(boardId).then((board) => {
          setBoard(board);
 
          // sort column
@@ -55,17 +61,29 @@ function BoardContent() {
       );
    }
 
-   const onColumnDrop = dropResult => {
+   const onColumnDrop = (dropResult) => {
       /* Creating a new array with the same values as the old array. */
-      let newColumns = [...columns];
+      let newColumns = cloneDeep(columns);
       newColumns = applyDrag(newColumns, dropResult);
 
-      let newBoard = { ...board };
-      newBoard.columnOrder = newColumns.map(c => c._id);
+      let newBoard = cloneDeep(board);
+      newBoard.columnOrder = newColumns.map((c) => c._id);
       newBoard.columns = newColumns;
 
       setColumns(newColumns);
       setBoard(newBoard);
+
+      // Use lodash isEqual to compare 2 object
+      if (!isEqual(newBoard.columnOrder, board.columnOrder)) {
+         // CAll api update columnOrder in board
+         updateBoard(newBoard._id, newBoard).catch(() => {
+            // TODO: handle error show toast
+            // console.log(err);
+
+            setColumns(columns); // Trả lại giá trị cũ
+            setBoard(board); // Trả lại giá trị cũ
+         });
+      }
    };
 
    const onCardDrop = (columnId, dropResult) => {
@@ -73,11 +91,44 @@ function BoardContent() {
          /* Creating a new array with the same values as the old array. */
          let newColumns = [...columns];
 
-         let currentColumn = newColumns.find(c => c._id === columnId);
+         let currentColumn = newColumns.find((c) => c._id === columnId);
+         let oldColumn = cloneDeep(currentColumn);
          currentColumn.cards = applyDrag(currentColumn.cards, dropResult);
-         currentColumn.cardOrder = currentColumn.cards.map(c => c._id);
+         currentColumn.cardOrder = currentColumn.cards.map((c) => c._id);
 
          setColumns(newColumns);
+         if (
+            dropResult.removedIndex !== null &&
+            dropResult.addedIndex !== null
+         ) {
+            // Move card inside of current column
+            if (
+               !isEqual(
+                  oldColumn.cardOrder,
+                  board.columns.find((c) => c._id === columnId).cardOrder
+               )
+            ) {
+               // Call api update cardOrder of current column
+               updateColumn(currentColumn._id, currentColumn).catch(
+                  () => setColumns(columns) // Trả lại giá trị cũ
+               );
+            }
+         } else {
+            // Move card outside of current column
+
+            // TODO: Merge 2 API into 1 API
+            // Call api update columnOrder of current column
+            updateColumn(currentColumn._id, currentColumn).catch(
+               () => setColumns(columns) // Trả lại giá trị cũ
+            );
+            if (dropResult.addedIndex !== null) {
+               let currentCard = cloneDeep(dropResult.payload);
+
+               currentCard.columnId = currentColumn._id;
+               // Cal api update columnId of  current card
+               updateCard(currentCard._id, currentCard);
+            }
+         }
       }
    };
 
@@ -92,12 +143,12 @@ function BoardContent() {
          boardId: board._id,
       };
       // Call API
-      createNewColumn(newColumnToAdd).then(column => {
+      createNewColumn(newColumnToAdd).then((column) => {
          let newColumns = [...columns];
          newColumns.push(column);
 
          let newBoard = { ...board };
-         newBoard.columnOrder = newColumns.map(c => c._id);
+         newBoard.columnOrder = newColumns.map((c) => c._id);
          newBoard.columns = newColumns;
 
          setColumns(newColumns);
@@ -107,12 +158,12 @@ function BoardContent() {
       });
    };
 
-   const onUpdateColumnState = newColumnToUpdate => {
+   const onUpdateColumnState = (newColumnToUpdate) => {
       const columnIdToUpdate = newColumnToUpdate._id;
 
       let newColumns = [...columns];
       const columnIndexToUpdate = newColumns.findIndex(
-         c => c._id === columnIdToUpdate
+         (c) => c._id === columnIdToUpdate
       );
 
       if (newColumnToUpdate._destroy) {
@@ -124,7 +175,7 @@ function BoardContent() {
       }
 
       let newBoard = { ...board };
-      newBoard.columnOrder = newColumns.map(c => c._id);
+      newBoard.columnOrder = newColumns.map((c) => c._id);
       newBoard.columns = newColumns;
 
       setColumns(newColumns);
@@ -138,7 +189,7 @@ function BoardContent() {
             /* A function that is called when a column is dropped. */
             onDrop={onColumnDrop}
             /* A function that returns the payload of the child at the given index. */
-            getChildPayload={index => columns[index]}
+            getChildPayload={(index) => columns[index]}
             dragHandleSelector='.column-drag-handle'
             dropPlaceholder={{
                animationDuration: 150,
@@ -176,8 +227,8 @@ function BoardContent() {
                         className='input-enter-new-column'
                         ref={newColumnInputRef}
                         value={newColumnTitle}
-                        onChange={e => setNewColumnTitle(e.target.value)}
-                        onKeyDown={e => e.key === 'Enter' && addNewColumn()}
+                        onChange={(e) => setNewColumnTitle(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && addNewColumn()}
                      />
                      <Button variant='success' size='sm' onClick={addNewColumn}>
                         Add column
