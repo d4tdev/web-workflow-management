@@ -16,7 +16,7 @@ import './BoardContent.scss';
 import Column from 'components/Column/Column';
 import { mapOrder } from 'utilities/sorts';
 import { applyDrag } from 'utilities/dragDrop';
-import { fetchBoardDetails } from 'actions/ApiCall';
+import { fetchBoardDetails, createNewColumn } from 'actions/ApiCall';
 
 function BoardContent() {
    // react hooks
@@ -31,15 +31,12 @@ function BoardContent() {
    const [newColumnTitle, setNewColumnTitle] = useState('');
 
    useEffect(() => {
-
       const boardId = '63f74c073b43e235a2891487';
       fetchBoardDetails(boardId).then(board => {
          setBoard(board);
 
          // sort column
-         setColumns(
-            mapOrder(board.columns, board.columnOrder, '_id')
-         );
+         setColumns(mapOrder(board.columns, board.columnOrder, '_id'));
       });
    }, []);
 
@@ -91,26 +88,26 @@ function BoardContent() {
       }
 
       const newColumnToAdd = {
-         id: `column-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
          title: newColumnTitle.trim(),
          boardId: board._id,
-         cardOrder: [],
-         cards: [],
       };
-      let newColumns = [...columns];
-      newColumns.push(newColumnToAdd);
+      // Call API
+      createNewColumn(newColumnToAdd).then(column => {
+         let newColumns = [...columns];
+         newColumns.push(column);
 
-      let newBoard = { ...board };
-      newBoard.columnOrder = newColumns.map(c => c._id);
-      newBoard.columns = newColumns;
+         let newBoard = { ...board };
+         newBoard.columnOrder = newColumns.map(c => c._id);
+         newBoard.columns = newColumns;
 
-      setColumns(newColumns);
-      setBoard(newBoard);
-      setNewColumnTitle('');
-      toggleOpenNewColumnForm();
+         setColumns(newColumns);
+         setBoard(newBoard);
+         setNewColumnTitle('');
+         toggleOpenNewColumnForm();
+      });
    };
 
-   const onUpdateColumn = newColumnToUpdate => {
+   const onUpdateColumnState = newColumnToUpdate => {
       const columnIdToUpdate = newColumnToUpdate._id;
 
       let newColumns = [...columns];
@@ -153,7 +150,7 @@ function BoardContent() {
                   <Column
                      column={column}
                      onCardDrop={onCardDrop}
-                     onUpdateColumn={onUpdateColumn}
+                     onUpdateColumnState={onUpdateColumnState}
                   />
                </Draggable>
             ))}
