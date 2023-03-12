@@ -12,9 +12,10 @@ import {
    saveContentAfterPressEnter,
    selectAllInLineText,
 } from 'utilities/contentEditable';
+import { createNewCard, updateColumn } from 'actions/ApiCall';
 
 function Column(props) {
-   const { column, onCardDrop, onUpdateColumn } = props;
+   const { column, onCardDrop, onUpdateColumnState } = props;
    const cards = mapOrder(column.cards, column.cardOrder, '_id');
 
    const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -40,6 +41,7 @@ function Column(props) {
       }
    }, [openNewCardForm]);
 
+   // Remove column
    const onConfirmModalAction = type => {
       if (type === MODAL_ACTION_CONFIRM) {
          // remove column
@@ -48,18 +50,28 @@ function Column(props) {
             _destroy: true,
          };
 
-         onUpdateColumn(newColumn);
+         // Call api
+         updateColumn(newColumn._id, newColumn).then(updatedColumn => {
+            onUpdateColumnState(updatedColumn.data);
+         });
       }
       toggleShowConfirmModal();
    };
 
+   // Update column title
    const handleColumnTitleBlur = () => {
-      const newColumn = {
-         ...column,
-         title: columnTitle,
-      };
+      if (columnTitle !== column.title) {
+         const newColumn = {
+            ...column,
+            title: columnTitle,
+         };
 
-      onUpdateColumn(newColumn);
+         // Call api
+         updateColumn(newColumn._id, newColumn).then(updatedColumn => {
+            updatedColumn.data.cards = newColumn.cards;
+            onUpdateColumnState(updatedColumn.data);
+         });
+      }
    };
 
    const addNewCard = () => {
@@ -69,20 +81,20 @@ function Column(props) {
       }
 
       const newCardToAdd = {
-         id: `card-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
          title: newCardTitle.trim(),
-         column: column._id,
+         columnId: column._id,
          boardId: column.boardId,
-         cover: null,
       };
+      // Call API
+      createNewCard(newCardToAdd).then(card => {
+         let newColumn = cloneDeep(column);
+         newColumn.cards.push(card);
+         newColumn.cardOrder.push(card._id);
 
-      let newColumn = cloneDeep(column);
-      newColumn.cards.push(newCardToAdd);
-      newColumn.cardOrder.push(newCardToAdd._id);
-
-      onUpdateColumn(newColumn);
-      setNewCardTitle('');
-      toggleOpenNewCardForm();
+         onUpdateColumnState(newColumn);
+         setNewCardTitle('');
+         toggleOpenNewCardForm();
+      });
    };
 
    return (
