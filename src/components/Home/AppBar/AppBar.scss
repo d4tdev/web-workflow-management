@@ -1,0 +1,70 @@
+@import '_settings.scss';
+
+$app-bar-bg-color: #037e34;
+
+.navbar-app {
+   height: $navbar-app-height;
+   padding-left: $gap;
+   display: flex;
+   align-items: center;
+   background-color: $app-bar-bg-color;
+   font-size: 1.5rem;
+
+   .btn-check:checked + .btn,
+   :not(.btn-check) + .btn:active,
+   .btn:first-child:active,
+   .btn.active,
+   .btn.show,
+   button {
+      padding: 2px 5px 4px 5px;
+      background-color: transparent;
+      border: none;
+   }
+   button:hover {
+      padding: 2px 5px 4px 5px;
+      background-color: rgba($color: #fff, $alpha: 0.2);
+   }
+
+   img {
+      max-width: 36px !important;
+      margin-right: 6px;
+   }
+   .nav-user {
+      left: -60px !important;
+   }
+   .nav-user-title {
+      max-width: 170px;
+      width: 100%;
+      font-size: 16px;
+      font-weight: 500;
+      text-align: end;
+      display: flex;
+      justify-content: flex-end;
+      color: white;
+   }
+   .dropdown-menu {
+      min-width: 10px !important;
+      width: 90px;
+   }
+   .nav-user > .dropdown-item {
+      text-align: end;
+      text-overflow: ellipsis;
+   }
+
+   .nav-logo {
+      margin-left: 150px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 600;
+      color: #000;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+      img {
+         max-width: 36px !important;
+         margin-right: 6px;
+      }
+   }
+}

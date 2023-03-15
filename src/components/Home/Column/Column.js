@@ -4,7 +4,7 @@ import { Dropdown, Form, Button } from 'react-bootstrap';
 import { cloneDeep } from 'lodash';
 
 import './Column.scss';
-import Card from 'components/Card/Card';
+import Card from 'components/Home/Card/Card';
 import ConfirmModal from 'components/Common/ConfirmModal';
 import { mapOrder } from 'utilities/sorts';
 import { MODAL_ACTION_CONFIRM } from 'utilities/constants';

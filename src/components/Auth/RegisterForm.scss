@@ -1,0 +1,75 @@
+@import '~bootstrap/scss/bootstrap';
+@import '_settings.scss';
+@import 'App.scss';
+
+.register-form {
+   .crossbar {
+      margin: 14px 0;
+      width: 100%;
+      border: 1px solid #ddd;
+   }
+   .btn:focus,
+   .btn:active {
+      outline: none !important;
+      box-shadow: none !important;
+   }
+
+   textarea:focus,
+   textarea.form-control:focus,
+   input.form-control:focus,
+   input[type='text']:focus,
+   input[type='password']:focus,
+   input[type='email']:focus,
+   input[type='number']:focus,
+   [type='text'].form-control:focus,
+   [type='password'].form-control:focus,
+   [type='email'].form-control:focus,
+   [type='tel'].form-control:focus,
+   [contenteditable].form-control:focus {
+      box-shadow: none;
+      border: 1px solid $input-border-color;
+   }
+
+   min-width: 270px;
+   button {
+      font-size: 18px;
+      margin: 0 auto;
+      width: 100%;
+      background-color: #41c375;
+      border-color: #41c375;
+   }
+   button:hover {
+      background-color: #3db46e;
+      border-color: #3db46e;
+   }
+   .login-link {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      font-size: 14px;
+      margin-top: 10px;
+      a.login-page {
+         margin-left: 10px;
+         font-size: 14px;
+         color: #41c375;
+         text-decoration: none;
+         font-weight: bold;
+         display: flex;
+         justify-content: center;
+      }
+   }
+   .show_hide-password {
+      color: #41c375;
+      border-color: #30b465;
+      border-left: none;
+      background-color: transparent;
+   }
+   .password-input {
+      border-right: none;
+   }
+   .password-input:focus {
+      border-right: none !important;
+   }
+}

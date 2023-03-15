@@ -1,0 +1,41 @@
+@import '_settings.scss';
+
+.navbar-board {
+   height: $navbar-board-height;
+   padding-left: $gap;
+   display: flex;
+   align-items: center;
+   background-color: $board-bg-color;
+   font-size: 1.1rem;
+
+   .add-new-column {
+      background-color: hsla(0, 0%, 100%, 0.24);
+      min-width: 120px;
+      max-width: 120px;
+      line-height: 32px;
+      // padding: 4px 0 4px 15px;
+      cursor: pointer;
+      color: white;
+      margin-left: $gap;
+      font-size: 15px;
+      border-radius: $column-border-radius;
+
+      &:hover {
+         background-color: hsla(0, 0%, 100%, 0.44);
+      }
+   }
+
+   .enter-new-column {
+      min-width: 220px;
+      max-width: 220px;
+      // background-color: $list-bg-color;
+      line-height: 32px;
+      // padding: 5px 10px;
+      margin-left: $gap;
+      border-radius: $column-border-radius;
+
+      input.input-enter-new-column {
+         margin-left: 5px;
+      }
+   }
+}

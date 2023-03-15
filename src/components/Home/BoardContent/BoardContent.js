@@ -13,7 +13,7 @@ import {
 import { isEmpty, cloneDeep, isEqual } from 'lodash';
 
 import './BoardContent.scss';
-import Column from 'components/Column/Column';
+import Column from 'components/Home/Column/Column';
 import { mapOrder } from 'utilities/sorts';
 import { applyDrag } from 'utilities/dragDrop';
 import {
@@ -56,7 +56,6 @@ function BoardContent() {
    if (isEmpty(board)) {
       return (
          <div className='not-found' style={{ padding: '10px', color: 'white' }}>
-            Board not found!
          </div>
       );
    }
@@ -213,7 +212,7 @@ function BoardContent() {
                   <Col
                      className='add-new-column'
                      onClick={toggleOpenNewColumnForm}>
-                     <i className='fa fa-plus icon' /> Add another column
+                     <i className='fa fa-plus icon' /> Thêm cột
                   </Col>
                </Row>
             )}
@@ -223,7 +222,7 @@ function BoardContent() {
                      <Form.Control
                         size='sm'
                         type='text'
-                        placeholder='Enter column title...'
+                        placeholder='Nhập tiêu đề cột...'
                         className='input-enter-new-column'
                         ref={newColumnInputRef}
                         value={newColumnTitle}
@@ -231,7 +230,7 @@ function BoardContent() {
                         onKeyDown={(e) => e.key === 'Enter' && addNewColumn()}
                      />
                      <Button variant='success' size='sm' onClick={addNewColumn}>
-                        Add column
+                        Thêm cột
                      </Button>
                      <span
                         className='cancel-icon'

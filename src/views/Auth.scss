@@ -1,0 +1,42 @@
+.root {
+   z-index: -1;
+   background-color: rgb(250, 251, 252);
+   background-image: url(https://aid-frontend.prod.atl-paas.net/atlassian-id/front-end/5.0.425/static/media/trello-left.7317ad1f.svg),
+      url(https://aid-frontend.prod.atl-paas.net/atlassian-id/front-end/5.0.425/static/media/trello-right.16b9c9bb.svg);
+   background-repeat: no-repeat, no-repeat;
+   background-attachment: fixed, fixed;
+   background-size: 368px, 368px;
+   background-position: left bottom, right bottom;
+
+   height: 100vh;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   .form {
+      padding: 32px 40px;
+      background: rgb(255, 255, 255);
+      border-radius: 3px;
+      box-shadow: rgb(0 0 0 / 25%) 0px 0px 10px;
+      box-sizing: border-box;
+      color: rgb(94, 108, 132);
+      max-width: 500px;
+      margin: 0 auto;
+
+      .form__header {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         margin-bottom: 20px;
+         .app-img {
+            max-width: 40px !important;
+         }
+         .app-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-left: 10px;
+            color: #000;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+         }
+      }
+   }
+}
