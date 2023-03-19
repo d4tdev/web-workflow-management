@@ -24,7 +24,9 @@ import {
    updateCard,
 } from 'actions/ApiCall';
 
-function BoardContent() {
+function BoardContent(props) {
+   const { boardId } = props;
+   // console.log(boardId);
    // react hooks
    const [board, setBoard] = useState({});
    const [columns, setColumns] = useState([]);
@@ -37,7 +39,6 @@ function BoardContent() {
    const [newColumnTitle, setNewColumnTitle] = useState('');
 
    useEffect(() => {
-      const boardId = '63f74c073b43e235a2891487';
       fetchBoardDetails(boardId).then((board) => {
          setBoard(board);
 
@@ -56,6 +57,7 @@ function BoardContent() {
    if (isEmpty(board)) {
       return (
          <div className='not-found' style={{ padding: '10px', color: 'white' }}>
+            Board not found
          </div>
       );
    }

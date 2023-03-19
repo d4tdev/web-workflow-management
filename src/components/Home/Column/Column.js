@@ -42,7 +42,7 @@ function Column(props) {
    }, [openNewCardForm]);
 
    // Remove column
-   const onConfirmModalAction = type => {
+   const onConfirmModalAction = (type) => {
       if (type === MODAL_ACTION_CONFIRM) {
          // remove column
          const newColumn = {
@@ -51,7 +51,7 @@ function Column(props) {
          };
 
          // Call api
-         updateColumn(newColumn._id, newColumn).then(updatedColumn => {
+         updateColumn(newColumn._id, newColumn).then((updatedColumn) => {
             onUpdateColumnState(updatedColumn.data);
          });
       }
@@ -67,7 +67,7 @@ function Column(props) {
          };
 
          // Call api
-         updateColumn(newColumn._id, newColumn).then(updatedColumn => {
+         updateColumn(newColumn._id, newColumn).then((updatedColumn) => {
             updatedColumn.data.cards = newColumn.cards;
             onUpdateColumnState(updatedColumn.data);
          });
@@ -86,7 +86,7 @@ function Column(props) {
          boardId: column.boardId,
       };
       // Call API
-      createNewCard(newCardToAdd).then(card => {
+      createNewCard(newCardToAdd).then((card) => {
          let newColumn = cloneDeep(column);
          newColumn.cards.push(card);
          newColumn.cardOrder.push(card._id);
@@ -106,11 +106,11 @@ function Column(props) {
                   type='text'
                   className='trello-content-editable'
                   value={columnTitle}
-                  onChange={e => setNewColumnTitle(e.target.value)}
+                  onChange={(e) => setNewColumnTitle(e.target.value)}
                   onBlur={handleColumnTitleBlur}
                   onKeyDown={saveContentAfterPressEnter}
                   onClick={selectAllInLineText}
-                  onMouseDown={e => e.preventDefault()}
+                  onMouseDown={(e) => e.preventDefault()}
                   spellCheck='false'
                />
             </div>
@@ -124,16 +124,18 @@ function Column(props) {
 
                   <Dropdown.Menu className='dropdown-menu'>
                      <Dropdown.Item onClick={toggleOpenNewCardForm}>
-                        Add Card...
+                        Thêm thẻ
                      </Dropdown.Item>
                      <Dropdown.Item onClick={toggleShowConfirmModal}>
-                        Remove Column...
+                        Xóa cột
                      </Dropdown.Item>
                      <Dropdown.Item>
-                        Move all cards in this column (beta)...
+                        Di chuyển tất cả các thẻ trong cột này (Đang phát
+                        triển)
                      </Dropdown.Item>
                      <Dropdown.Item>
-                        Archive all cards in this column (beta)...
+                        Lưu trữ tất cả các thẻ trong cột này (Đang phát
+                        triển)
                      </Dropdown.Item>
                   </Dropdown.Menu>
                </Dropdown>
@@ -149,12 +151,12 @@ function Column(props) {
 
                orientation='vertical' // default orientation
                groupName='col' // cho phep keo tha qua cac column khi co cung groupName nhu the
-               onDrop={dropResult => onCardDrop(column._id, dropResult)}
+               onDrop={(dropResult) => onCardDrop(column._id, dropResult)}
                dragClass='card-ghost'
                dropClass='card-ghost-drop'
                s
                /* A function that returns the payload of the child at the given index. */
-               getChildPayload={index => cards[index]}
+               getChildPayload={(index) => cards[index]}
                dropPlaceholder={{
                   animationDuration: 150,
                   showOnTop: true,
@@ -173,12 +175,12 @@ function Column(props) {
                      size='sm'
                      as='textarea'
                      rows='3'
-                     placeholder='Enter the title for this card..'
+                     placeholder='Nhập tiêu đề cho thẻ này...'
                      className='textarea-enter-new-card'
                      ref={newCardTextareaRef}
                      value={newCardTitle}
-                     onChange={e => setNewCardTitle(e.target.value)}
-                     onKeyDown={e => e.key === 'Enter' && addNewCard()}
+                     onChange={(e) => setNewCardTitle(e.target.value)}
+                     onKeyDown={(e) => e.key === 'Enter' && addNewCard()}
                   />
                </div>
             )}
@@ -187,7 +189,7 @@ function Column(props) {
             {openNewCardForm && (
                <div className='add-new-card-actions'>
                   <Button variant='success' size='sm' onClick={addNewCard}>
-                     Add card
+                     Thêm thẻ
                   </Button>
                   <span className='cancel-icon' onClick={toggleOpenNewCardForm}>
                      <i className='fa fa-times icon' />
@@ -196,7 +198,7 @@ function Column(props) {
             )}
             {!openNewCardForm && (
                <div className='footer-actions' onClick={toggleOpenNewCardForm}>
-                  <i className='fa fa-plus icon' /> Add another card
+                  <i className='fa fa-plus icon' /> Thêm thẻ
                </div>
             )}
          </footer>
@@ -204,8 +206,8 @@ function Column(props) {
          <ConfirmModal
             show={showConfirmModal}
             onAction={onConfirmModalAction}
-            title='Remove column'
-            content={`Are you sure you want to remove <strong>${column.title}</strong>! <br/>All related cards will also be removed!`}
+            title='Xóa cột'
+            content={`Bạn có chắc chắn muốn xóa cột <strong>${column.title}</strong>! <br/>Tất cả các thẻ liên quan cũng sẽ bị xóa!`}
          />
       </div>
    );

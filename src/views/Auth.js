@@ -27,7 +27,7 @@ const Auth = ({ authRoute }) => {
          </div>
       );
    } else if (isAuthenticated) {
-      return <Navigate to='/' />;
+      return <Navigate to='/boards' />;
    } else {
       body = (
          <>

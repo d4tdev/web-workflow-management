@@ -70,7 +70,7 @@ function RegisterForm() {
       const registerData = await registerUser(registerForm);
 
       if (registerData.success) {
-         navigate('/');
+         navigate('/boards');
       } else {
          setAlert({
             type: 'danger',
@@ -111,7 +111,7 @@ function RegisterForm() {
          const registerData = await registerUser(registerForm);
 
          if (registerData.success) {
-            navigate('/');
+            navigate('/boards');
          } else {
             setAlert({
                type: 'danger',

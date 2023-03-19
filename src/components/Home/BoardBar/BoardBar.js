@@ -9,7 +9,7 @@ import {
 } from 'react-bootstrap';
 import { isEmpty, cloneDeep, isEqual } from 'lodash';
 
-import Column from 'components/Home/Column/Column';
+import BoardContent from 'components/Home/BoardContent/BoardContent';
 import { mapOrder } from 'utilities/sorts';
 import { applyDrag } from 'utilities/dragDrop';
 import {
@@ -22,30 +22,32 @@ import {
 
 import './BoardBar.scss';
 
-function BoardBar() {
-   const [boards, setBoards] = useState([]);
-   const [newColumnTitle, setNewColumnTitle] = useState('');
-   const [openNewColumnForm, setOpenNewColumnForm] = useState(false);
-   const toggleOpenNewColumnForm = () =>
-      setOpenNewColumnForm(!openNewColumnForm);
+function BoardBar(props) {
+   const { boardId } = props;
+   // console.log(boardId);
+   // react hooks
+   const [boardTitle, setBoardTitle] = useState('');
 
-   // if (isEmpty(boards)) {
-   //    return (<nav className='navbar-board'>Board Bar</nav>));
-   // }
+   useEffect(() => {
+      fetchBoardDetails(boardId).then((board) => {
+         setBoardTitle(board.title);
+      });
+   }, [boardId]);
+
    return (
       <nav className='navbar-board'>
-         Board Bar
-         <BootstrapContainer className='add-column-container'>
-            {!openNewColumnForm && (
+         <Container orientation='horizontal'>{boardTitle}</Container>
+         {/* <BootstrapContainer className='add-column-container'>
+            {!openNewBoardForm && (
                <Row>
                   <Col
                      className='add-new-column'
-                     onClick={toggleOpenNewColumnForm}>
+                     onClick={toggleOpenNewBoardForm}>
                      <i className='fa fa-plus icon' /> Thêm bảng
                   </Col>
                </Row>
             )}
-            {openNewColumnForm && (
+            {openNewBoardForm && (
                <Row>
                   <Col className='enter-new-column'>
                      <Form.Control
@@ -53,9 +55,9 @@ function BoardBar() {
                         type='text'
                         placeholder='Nhập tiêu đề bảng...'
                         className='input-enter-new-column'
-                        // ref={newColumnInputRef}
-                        // value={newColumnTitle}
-                        onChange={(e) => setNewColumnTitle(e.target.value)}
+                        ref={newBoardInputRef}
+                        value={newBoardTitle}
+                        onChange={(e) => setNewBoardTitle(e.target.value)}
                         // onKeyDown={(e) => e.key === 'Enter' && addNewColumn()}
                      />
                   </Col>
@@ -69,13 +71,13 @@ function BoardBar() {
                      </Button>
                      <span
                         className='cancel-icon'
-                        onClick={toggleOpenNewColumnForm}>
+                        onClick={toggleOpenNewBoardForm}>
                         <i className='fa fa-times icon' />
                      </span>
                   </Col>
                </Row>
             )}
-         </BootstrapContainer>
+         </BootstrapContainer> */}
       </nav>
    );
 }

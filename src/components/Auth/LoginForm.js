@@ -47,7 +47,7 @@ function LoginForm() {
       const loginData = await loginUser(loginForm);
 
       if (loginData.success) {
-         navigate('/');
+         navigate('/boards');
       } else {
          setAlert({
             type: 'danger',
@@ -71,7 +71,7 @@ function LoginForm() {
          const loginData = await loginUser(loginForm);
 
          if (loginData.success) {
-            navigate('/');
+            navigate('/boards');
          } else {
             setAlert({
                type: 'danger',
