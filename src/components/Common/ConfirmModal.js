@@ -20,10 +20,10 @@ function ConfirmModal(props) {
          <Modal.Body>{HTMLReactParser(content)}</Modal.Body>
          <Modal.Footer>
             <Button variant='secondary' onClick={() => onAction(MODAL_ACTION_CLOSE)}>
-               Close
+               Hủy
             </Button>
-            <Button variant='primary' onClick={() => onAction(MODAL_ACTION_CONFIRM)}>
-               Confirm
+            <Button variant='success' onClick={() => onAction(MODAL_ACTION_CONFIRM)}>
+               Đồng ý
             </Button>
          </Modal.Footer>
       </Modal>

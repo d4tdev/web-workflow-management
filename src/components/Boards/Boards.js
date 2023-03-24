@@ -11,13 +11,7 @@ import {
 
 import { mapOrder } from 'utilities/sorts';
 import { applyDrag } from 'utilities/dragDrop';
-import {
-   fetchBoardDetails,
-   createNewColumn,
-   updateBoard,
-   updateColumn,
-   updateCard,
-} from 'actions/ApiCall';
+import { getAllBoards, createNewBoard } from 'actions/ApiCall';
 
 import AppBar from 'components/Home/AppBar/AppBar';
 import '../../App.scss';
@@ -32,19 +26,17 @@ function Boards() {
          user: { _id },
       },
    } = useContext(AuthContext);
-   
+
    const [boards, setBoards] = useState([]);
    const [newBoardTitle, setNewBoardTitle] = useState('');
    const [openNewBoardForm, setOpenNewBoardForm] = useState(false);
    const toggleOpenNewBoardForm = () => setOpenNewBoardForm(!openNewBoardForm);
 
    useEffect(() => {
-      const boards = [
-         { id: '63f74c073b43e235a2891123', title: 'board1' },
-         { id: '63f74c073b43e235a2891487', title: 'board2' },
-      ];
 
-      setBoards(boards);
+      getAllBoards().then((boards) => {
+         setBoards(boards);
+      });
    }, []);
 
    const newBoardInputRef = useRef(null);
@@ -69,17 +61,16 @@ function Boards() {
       }
       const board = {
          title: newBoardTitle,
-         columns: [],
+         userId: _id,
       };
-      setBoards([...boards, board]);
+      // setBoards([...boards, board]);
       setNewBoardTitle('');
       setOpenNewBoardForm(false);
 
-      // createNewBoard(board).then((board) => {
-      //    setBoards([...boards, board]);
-      //    setNewBoardTitle('');
-      //    setOpenNewBoardForm(false);
-      // });
+      createNewBoard(board).then((board) => {
+         // console.log(board);
+         setBoards([...boards, board]);
+      });
    };
    return (
       <div className='Boards'>
@@ -116,15 +107,16 @@ function Boards() {
                                     onChange={(e) =>
                                        setNewBoardTitle(e.target.value)
                                     }
-                                    // onKeyDown={(e) => e.key === 'Enter' && addNewBoard()}
+                                    onKeyDown={(e) =>
+                                       e.key === 'Enter' && addNewBoard()
+                                    }
                                  />
 
                                  <Button
                                     className='btn-add-new-column'
                                     variant='success'
                                     size='sm'
-                                    //  onClick={addNewBoard}
-                                 >
+                                    onClick={addNewBoard}>
                                     Thêm bảng
                                  </Button>
                                  <span
@@ -145,10 +137,10 @@ function Boards() {
                         {boards.map((board, index) => {
                            return (
                               <Link
-                                 to={`/board/${board.id}`}
-                                 key={board.id}
+                                 to={`/board/${board._id}`}
+                                 key={board._id}
                                  onClick={() =>
-                                    handleClickBoardTitle(board.id)
+                                    handleClickBoardTitle(board._id)
                                  }>
                                  <BootstrapContainer
                                     orientation='horizontal'

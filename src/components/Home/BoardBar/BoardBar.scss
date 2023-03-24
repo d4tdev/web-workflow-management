@@ -38,4 +38,38 @@
          margin-left: 5px;
       }
    }
+
+   .column-dropdown-actions {
+      flex: 600%;
+
+      button.dropdown-btn {
+         padding: 0 10px;
+         font-size: 16px;
+         font-weight: bold;
+         letter-spacing: 1px;
+         background-color: $list-bg-color;
+         border-color: $list-bg-color;
+         color: $app-main-text-color;
+         &:after {
+            content: '...';
+            border: none;
+         }
+         &:hover {
+            background-color: darken($list-bg-color, 10);
+            border-color: darken($list-bg-color, 10);
+         }
+      }
+      .dropdown-menu {
+         min-width: 200px;
+         padding: 0;
+         a.dropdown-item {
+            padding: 0.1rem 1rem;
+            line-height: 32px;
+            font-size: 14px;
+            &:not(:last-child) {
+               border-bottom: 1px solid #ccc;
+            }
+         }
+      }
+   }
 }
