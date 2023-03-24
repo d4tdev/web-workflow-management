@@ -57,7 +57,46 @@ function BoardContent(props) {
    if (isEmpty(board)) {
       return (
          <div className='not-found' style={{ padding: '10px', color: 'white' }}>
-            Board not found
+            <BootstrapContainer className='add-column-container'>
+               {!openNewColumnForm && (
+                  <Row>
+                     <Col
+                        className='add-new-column'
+                        onClick={toggleOpenNewColumnForm}>
+                        <i className='fa fa-plus icon' /> Thêm cột
+                     </Col>
+                  </Row>
+               )}
+               {openNewColumnForm && (
+                  <Row>
+                     <Col className='enter-new-column'>
+                        <Form.Control
+                           size='sm'
+                           type='text'
+                           placeholder='Nhập tiêu đề cột...'
+                           className='input-enter-new-column'
+                           ref={newColumnInputRef}
+                           value={newColumnTitle}
+                           onChange={(e) => setNewColumnTitle(e.target.value)}
+                           onKeyDown={(e) =>
+                              e.key === 'Enter' && addNewColumn()
+                           }
+                        />
+                        <Button
+                           variant='success'
+                           size='sm'
+                           onClick={addNewColumn}>
+                           Thêm cột
+                        </Button>
+                        <span
+                           className='cancel-icon'
+                           onClick={toggleOpenNewColumnForm}>
+                           <i className='fa fa-times icon' />
+                        </span>
+                     </Col>
+                  </Row>
+               )}
+            </BootstrapContainer>
          </div>
       );
    }

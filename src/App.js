@@ -9,6 +9,7 @@ import ProtectedRoute from 'components/Routing/ProtectedRoute';
 import Boards from 'components/Boards/Boards';
 import Contact from 'components/Boards/Contact';
 import About from 'components/Boards/About';
+import NotFound from 'components/NotFound/NotFound';
 
 function App() {
    return (
@@ -20,6 +21,9 @@ function App() {
                </Route>
                <Route exact path='/boards' element={<ProtectedRoute />}>
                   <Route exact path='/boards' element={<Boards />} />
+               </Route>
+               <Route exact path='/' element={<ProtectedRoute />}>
+                  <Route exact path='/' element={<Boards />} />
                </Route>
                <Route exact path='/contact' element={<ProtectedRoute />}>
                   <Route exact path='/contact' element={<Contact />} />
@@ -37,6 +41,7 @@ function App() {
                   path='/register'
                   element={<Auth authRoute='register' />}
                />
+               <Route exact path='*' element={<NotFound />} />
             </Routes>
          </Router>
       </AuthContextProvider>
