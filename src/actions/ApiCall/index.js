@@ -6,6 +6,11 @@ export const getAllBoards = async () => {
    return request.data;
 };
 
+export const getDeletedBoards = async () => {
+   const request = await axios.get(`${API_ROOT}/v1/boards/deleted`);
+   return request.data;
+};
+
 export const createNewBoard = async (data) => {
    const request = await axios.post(`${API_ROOT}/v1/boards`, data);
    return request.data;
