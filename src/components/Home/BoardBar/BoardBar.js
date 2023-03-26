@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-// import { Container } from 'react-smooth-dnd';
 import { Container, Dropdown, Form } from 'react-bootstrap';
 
 import {
@@ -23,7 +22,6 @@ function BoardBar(props) {
 
    useEffect(() => {
       fetchBoardDetails(boardId).then((board) => {
-         console.log(board);
          setBoardTitle(board.title);
          setBoard(board);
       });
@@ -35,7 +33,6 @@ function BoardBar(props) {
    // Remove board
    const onConfirmModalAction = (type) => {
       if (type === MODAL_ACTION_CONFIRM) {
-         console.log(board);
          // remove board
          const newBoard = {
             _destroy: true,
@@ -91,18 +88,9 @@ function BoardBar(props) {
                />
 
                <Dropdown.Menu className='dropdown-menu'>
-                  {/* <Dropdown.Item onClick={toggleOpenNewCardForm}>
-                        Thêm thẻ
-                     </Dropdown.Item> */}
                   <Dropdown.Item onClick={toggleShowConfirmModal}>
                      Xóa bảng
                   </Dropdown.Item>
-                  {/* <Dropdown.Item>
-                        Di chuyển tất cả các thẻ trong cột này (Đang phát triển)
-                     </Dropdown.Item>
-                     <Dropdown.Item>
-                        Lưu trữ tất cả các thẻ trong cột này (Đang phát triển)
-                     </Dropdown.Item> */}
                </Dropdown.Menu>
             </Dropdown>
          </div>

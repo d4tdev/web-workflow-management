@@ -7,12 +7,18 @@ import {
    Col,
    Form,
    Button,
+   ListGroup,
 } from 'react-bootstrap';
 
-import { mapOrder } from 'utilities/sorts';
-import { applyDrag } from 'utilities/dragDrop';
-import { getAllBoards, createNewBoard } from 'actions/ApiCall';
+import {
+   getAllBoards,
+   createNewBoard,
+   getDeletedBoards,
+   updateBoard,
+} from 'actions/ApiCall';
 
+import ConfirmModal from 'components/Common/ConfirmModal';
+import { MODAL_ACTION_CONFIRM } from 'utilities/constants';
 import AppBar from 'components/Home/AppBar/AppBar';
 import '../../App.scss';
 import './Boards.scss';
@@ -27,13 +33,13 @@ function Boards() {
       },
    } = useContext(AuthContext);
 
+   const [boardsStatus, setBoardsStatus] = useState(true);
    const [boards, setBoards] = useState([]);
    const [newBoardTitle, setNewBoardTitle] = useState('');
    const [openNewBoardForm, setOpenNewBoardForm] = useState(false);
    const toggleOpenNewBoardForm = () => setOpenNewBoardForm(!openNewBoardForm);
 
    useEffect(() => {
-
       getAllBoards().then((boards) => {
          setBoards(boards);
       });
@@ -72,6 +78,53 @@ function Boards() {
          setBoards([...boards, board]);
       });
    };
+
+   const handleSetBoards = (status) => {
+      if (status === 'deleted') {
+         if (boardsStatus === false) return;
+
+         setActiveStatus(false);
+         setActiveStatusDeleted(true);
+         setBoardsStatus(false);
+         getDeletedBoards().then((boards) => {
+            setBoards(boards);
+         });
+      } else {
+         if (boardsStatus === true) return;
+
+         setActiveStatus(true);
+         setActiveStatusDeleted(false);
+         setBoardsStatus(true);
+         getAllBoards().then((boards) => {
+            setBoards(boards);
+         });
+      }
+   };
+   const [activeStatus, setActiveStatus] = useState(true);
+   const [activeStatusDeleted, setActiveStatusDeleted] = useState(false);
+
+   // Restore board
+   const [boardIdRestore, setBoardIdRestore] = useState('');
+   const [showConfirmModal, setShowConfirmModal] = useState(false);
+   const toggleShowConfirmModal = (id) => {
+      setShowConfirmModal(!showConfirmModal);
+      setBoardIdRestore(id);
+   };
+   const onConfirmModalAction = (type) => {
+      if (type === MODAL_ACTION_CONFIRM) {
+         // remove board
+         const newBoard = {
+            _destroy: false,
+         };
+
+         // Call api
+         updateBoard(boardIdRestore, newBoard).then((board) => {
+            setBoards(boards.filter((board) => board._id !== boardIdRestore));
+         });
+      }
+      toggleShowConfirmModal();
+   };
+
    return (
       <div className='Boards'>
          <AppBar menuLeft={false} />
@@ -79,11 +132,6 @@ function Boards() {
             <BootstrapContainer>
                <Row>
                   <Col sm={3}>
-                     {/* <Link to='/boards'>Boards</Link>
-                     <Link to='/about'>About</Link>
-                     <Link to='/contact'>Contact</Link>
-                     <br /> */}
-
                      <BootstrapContainer className='add-column-container'>
                         {!openNewBoardForm && (
                            <Row>
@@ -128,30 +176,81 @@ function Boards() {
                            </Row>
                         )}
                      </BootstrapContainer>
+                     <div className='crossbar'></div>
+                     <ListGroup as='ul' className=' mx-lg-4'>
+                        <ListGroup.Item
+                           as='li'
+                           className='boards-choice'
+                           active={activeStatus}
+                           onClick={() => handleSetBoards('all')}>
+                           <i className='fa fa-star icon' /> Bảng
+                        </ListGroup.Item>
+                        <ListGroup.Item
+                           as='li'
+                           className='boards-choice'
+                           active={activeStatusDeleted}
+                           onClick={() => handleSetBoards('deleted')}>
+                           <i className='fa-solid fa-trash icon'></i> Bảng đã
+                           lưu trữ
+                        </ListGroup.Item>
+                     </ListGroup>
                   </Col>
-                  <Col sm={7}>
-                     <Row className='boards-content'>
-                        CÁC KHÔNG GIAN LÀM VIỆC CỦA BẠN
-                     </Row>
-                     <Row className='d-flex'>
-                        {boards.map((board, index) => {
-                           return (
-                              <Link
-                                 to={`/board/${board._id}`}
-                                 key={board._id}
-                                 onClick={() =>
-                                    handleClickBoardTitle(board._id)
-                                 }>
-                                 <BootstrapContainer
-                                    orientation='horizontal'
-                                    className='board-title'>
-                                    {board.title}
-                                 </BootstrapContainer>
-                              </Link>
-                           );
-                        })}
-                     </Row>
-                  </Col>
+                  {!boardsStatus && (
+                     <Col sm={7}>
+                        <Row className='boards-content'>
+                           CÁC BẢNG ĐÃ LƯU TRỮ (ĐÃ XÓA)
+                        </Row>
+                        <Row className='d-flex'>
+                           {boards.map((board, index) => {
+                              return (
+                                 <Link
+                                    // to={`/board/${board._id}`}
+                                    key={board._id}
+                                    onClick={() =>
+                                       toggleShowConfirmModal(board._id)
+                                    }>
+                                    <BootstrapContainer
+                                       orientation='horizontal'
+                                       className='board-title'>
+                                       {board.title}
+                                    </BootstrapContainer>
+                                    <ConfirmModal
+                                       show={showConfirmModal}
+                                       onAction={onConfirmModalAction}
+                                       title='Khôi phục'
+                                       content={`Bạn có chắc chắn muốn khôi phục bảng <strong>${board.title}</strong>!`}
+                                    />
+                                 </Link>
+                              );
+                           })}
+                        </Row>
+                     </Col>
+                  )}
+                  {boardsStatus && (
+                     <Col sm={7}>
+                        <Row className='boards-content'>
+                           CÁC KHÔNG GIAN LÀM VIỆC CỦA BẠN
+                        </Row>
+                        <Row className='d-flex'>
+                           {boards.map((board, index) => {
+                              return (
+                                 <Link
+                                    to={`/board/${board._id}`}
+                                    key={board._id}
+                                    onClick={() =>
+                                       handleClickBoardTitle(board._id)
+                                    }>
+                                    <BootstrapContainer
+                                       orientation='horizontal'
+                                       className='board-title'>
+                                       {board.title}
+                                    </BootstrapContainer>
+                                 </Link>
+                              );
+                           })}
+                        </Row>
+                     </Col>
+                  )}
                </Row>
             </BootstrapContainer>
          </nav>
