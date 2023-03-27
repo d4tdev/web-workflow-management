@@ -45,13 +45,13 @@ function AppBar(props) {
                      className='font-weight-bolder text white'
                      to='/boards'
                      as={Link}>
-                     Boards
+                     Trang chủ
                   </Dropdown.Item>
                   <Dropdown.Item
                      className='font-weight-bolder text white'
                      to='/about'
                      as={Link}>
-                     About
+                     Thông tin
                   </Dropdown.Item>
                </Dropdown.Menu>
             </Dropdown>
@@ -65,7 +65,7 @@ function AppBar(props) {
             className='nav-user-title'
             id='basic-navbar-nav'
             width='150px'>
-            Wellcome, {username}!
+            Xin chào, {username}!
          </Navbar.Collapse>
          <Dropdown>
             <Dropdown.Toggle bsPrefix className='m-2 btn-icon-only w-100 h-100'>

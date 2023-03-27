@@ -71,7 +71,7 @@
    }
 
    .navbar-boards {
-      height: $navbar-board-height + $board-content-height + 1vh;
+      height: $navbar-board-height + $board-content-height - 2.2vh;
       padding-left: $gap;
       display: flex;
       margin-top: 30px;
