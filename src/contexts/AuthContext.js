@@ -21,7 +21,9 @@ const AuthContextProvider = ({ children }) => {
       }
 
       try {
-         const response = await axios.get(`${API_ROOT}/v1/auth`);
+         const response = await axios.get(`${API_ROOT}/v1/auth`, {
+            withCredentials: true,
+         });
          if (response.data.success) {
             dispatch({
                type: 'SET_AUTH',
@@ -48,7 +50,10 @@ const AuthContextProvider = ({ children }) => {
       try {
          const response = await axios.post(
             `${API_ROOT}/v1/auth/login`,
-            userForm
+            userForm,
+            {
+               withCredentials: true,
+            }
          );
          if (response.data.success) {
             localStorage.setItem('wfmg-login', response.data.accessToken);
@@ -67,7 +72,10 @@ const AuthContextProvider = ({ children }) => {
       try {
          const response = await axios.post(
             `${API_ROOT}/v1/auth/register`,
-            userForm
+            userForm,
+            {
+               withCredentials: true,
+            }
          );
          if (response.data.success) {
             localStorage.setItem('wfmg-login', response.data.accessToken);
