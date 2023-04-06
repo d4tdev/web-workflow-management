@@ -6,7 +6,6 @@ import LoginForm from 'components/Auth/LoginForm';
 import RegisterForm from 'components/Auth/RegisterForm';
 import { AuthContext } from 'contexts/AuthContext';
 import './Auth.scss';
-import axios from 'axios';
 
 const Auth = ({ authRoute }) => {
    const {

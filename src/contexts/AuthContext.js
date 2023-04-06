@@ -23,6 +23,7 @@ const AuthContextProvider = ({ children }) => {
       try {
          const response = await axios.get(`${API_ROOT}/v1/auth`, {
             withCredentials: true,
+            credentials: 'include',
          });
          if (response.data.success) {
             dispatch({
@@ -53,6 +54,7 @@ const AuthContextProvider = ({ children }) => {
             userForm,
             {
                withCredentials: true,
+               credentials: 'include',
             }
          );
          if (response.data.success) {
@@ -75,6 +77,7 @@ const AuthContextProvider = ({ children }) => {
             userForm,
             {
                withCredentials: true,
+               credentials: 'include',
             }
          );
          if (response.data.success) {

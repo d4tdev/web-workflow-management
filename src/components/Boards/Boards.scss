@@ -4,13 +4,15 @@
 .Boards {
    .crossbar {
       margin: 25px 0;
-      width: 80%;
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
       border: 1px solid #c3c3c3;
    }
    overflow: hidden;
    // display: grid;
    // grid-template-rows: 40px 50px 1fr; // grid layout theo rows tren cung la 40px, giua la 50px, duoi la 1fr
-   background-color: $board-bg-color;
+   background-color: rgb(245, 222, 190);
    color: $app-main-text-color;
    .icon {
       font-size: 14px;
@@ -54,6 +56,12 @@
          background-color: #fff;
       }
    }
+   .nav-left {
+      background-color: $board-bg-color;
+      min-height: 89vh;
+      margin-right: 20px;
+      border-radius: 10px;
+   }
 
    span.cancel-icon {
       position: relative;
@@ -75,7 +83,7 @@
       padding-left: $gap;
       display: flex;
       margin-top: 30px;
-      background-color: $board-bg-color;
+      background-color: rgb(245, 222, 190);
       font-size: 1.1rem;
 
       // .add-new-column {
@@ -95,10 +103,11 @@
       //    }
       // }
       .boards-content {
+         margin-left: 5px;
          font-weight: 600;
          font-size: 1.3rem;
          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-         Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+            Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
       }
       .add-new-column {
          background-color: hsla(0, 0%, 100%, 0.24);
@@ -110,7 +119,7 @@
          cursor: pointer;
          color: white;
          margin-top: 45px;
-         margin-left: $gap;
+         margin-left: 20px;
          display: flex;
          justify-content: center;
          align-items: center;
@@ -127,6 +136,7 @@
          width: 200px !important;
          width: 100%;
          color: white;
+         text-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
          font-weight: bold;
          margin-top: 15px;
          margin-right: 10px;
@@ -188,10 +198,13 @@
          }
       }
       .active {
-         background-color: $common-element-bg;
+         background-color: rgb(245, 222, 190);
          border-radius: 5px;
          border: none;
          color: #000;
+         &:hover {
+            background-color: rgb(245, 222, 190);
+         }
       }
    }
 }

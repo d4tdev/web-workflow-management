@@ -131,7 +131,7 @@ function Boards() {
          <nav className='navbar-boards'>
             <BootstrapContainer>
                <Row>
-                  <Col sm={3}>
+                  <Col sm={3} className='nav-left h-auto'>
                      <BootstrapContainer className='add-column-container'>
                         {!openNewBoardForm && (
                            <Row>
