@@ -12,7 +12,8 @@
    overflow: hidden;
    // display: grid;
    // grid-template-rows: 40px 50px 1fr; // grid layout theo rows tren cung la 40px, giua la 50px, duoi la 1fr
-   background-color: rgb(245, 222, 190);
+   background-color: #f8fafc;
+   // rgb(245, 222, 190);
    color: $app-main-text-color;
    .icon {
       font-size: 14px;
@@ -83,7 +84,8 @@
       padding-left: $gap;
       display: flex;
       margin-top: 30px;
-      background-color: rgb(245, 222, 190);
+      background-color: #f8fafc;
+      // rgb(245, 222, 190);
       font-size: 1.1rem;
 
       // .add-new-column {
