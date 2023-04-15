@@ -9,6 +9,7 @@ $app-bar-bg-color: #037e34;
    align-items: center;
    background-color: $app-bar-bg-color;
    font-size: 1.5rem;
+   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
 
    .btn-check:checked + .btn,
    :not(.btn-check) + .btn:active,
